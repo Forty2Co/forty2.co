@@ -1,0 +1,10 @@
+# forty2.co
+
+> forty2.co is a personal incubator.
+
+forty2.co is a personal incubator created to explore, build, and ship ideas. It's currently in early stages — watch this space for further updates.
+
+## Links
+
+- Website: https://forty2.co
+- GitHub: https://github.com/sukantamaikap
