@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: forty2 --default;
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@plugin "daisyui/theme" {
+  name: "forty2";
+  default: true;
+  --color-primary: #6C63FF;
+  --color-secondary: #F5F3FF;
+  --color-accent: #A78BFA;
+  --color-neutral: #1F2937;
+  --color-base-100: #FAFAFA;
+  --color-base-200: #F3F4F6;
+  --color-base-content: #374151;
+  --color-info: #6C63FF;
+  --color-success: #10B981;
+  --color-error: #EF4444;
+}
