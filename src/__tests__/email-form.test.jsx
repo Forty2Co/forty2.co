@@ -1,4 +1,4 @@
-import { render, fireEvent } from "@solidjs/testing-library";
+import { render, fireEvent, waitFor } from "@solidjs/testing-library";
 import { describe, it, expect } from "vitest";
 import EmailForm from "../components/EmailForm";
 
@@ -29,9 +29,11 @@ describe("EmailForm unit tests", () => {
     const button = container.querySelector("button[type='submit']");
     await fireEvent.input(input, { target: { value: "test@example.com" } });
     await fireEvent.click(button);
-    const confirmation = container.querySelector("[role='status']");
-    expect(confirmation).not.toBeNull();
-    expect(confirmation.textContent).toContain("Thanks");
+    await waitFor(() => {
+      const confirmation = container.querySelector("[role='status']");
+      expect(confirmation).not.toBeNull();
+      expect(confirmation.textContent).toContain("Thanks");
+    });
   });
 
   it("email input has an associated label", () => {
