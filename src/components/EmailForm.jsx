@@ -1,4 +1,5 @@
 import { createSignal } from "solid-js";
+import { submitEmail } from "../lib/loopsClient.js";
 
 function validateEmail(email) {
   if (!email || email.trim() === "") return "Please enter an email address.";
@@ -14,8 +15,11 @@ export default function EmailForm() {
   const [email, setEmail] = createSignal("");
   const [error, setError] = createSignal(null);
   const [submitted, setSubmitted] = createSignal(false);
+  const [loading, setLoading] = createSignal(false);
+  const [apiError, setApiError] = createSignal(null);
+  const [sessionSubmitted, setSessionSubmitted] = createSignal(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationError = validateEmail(email());
     if (validationError) {
@@ -24,7 +28,22 @@ export default function EmailForm() {
       return;
     }
     setError(null);
-    setSubmitted(true);
+    setApiError(null);
+
+    if (sessionSubmitted()) {
+      setSubmitted(true);
+      return;
+    }
+
+    setLoading(true);
+    const result = await submitEmail(email());
+    if (result.success) {
+      setSubmitted(true);
+      setSessionSubmitted(true);
+    } else {
+      setApiError(result.error);
+    }
+    setLoading(false);
   };
 
   return (
@@ -47,13 +66,26 @@ export default function EmailForm() {
               aria-describedby={error() ? "email-error" : undefined}
               aria-invalid={error() ? "true" : undefined}
             />
-            <button type="submit" class="btn btn-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-base-100">
-              Notify me
+            <button
+              type="submit"
+              class="btn btn-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-base-100"
+              disabled={loading()}
+            >
+              {loading() ? (
+                <span class="loading loading-spinner loading-sm" aria-label="Submitting"></span>
+              ) : (
+                "Notify me"
+              )}
             </button>
           </div>
           {error() && (
             <span id="email-error" class="text-error text-sm" role="alert">
               {error()}
+            </span>
+          )}
+          {apiError() && (
+            <span class="text-error text-sm" role="alert">
+              {apiError()}
             </span>
           )}
         </form>
