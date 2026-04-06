@@ -19,7 +19,7 @@
     "fast-check": "^4.6.0",
     "jsdom": "^29.0.1",
     "tailwindcss": "^4.2.2",
-    "vite": "^8.0.1",
+    "vite": "^8.0.5",
     "vite-plugin-solid": "^2.11.11",
     "vitest": "^4.1.0"
   }
